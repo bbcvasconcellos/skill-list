@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, TextInput, Platform, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Platform, Keyboard, TouchableWithoutFeedback } from 'react-native'
+import { Button } from '../components/Button';
+import { SkillCard } from '../components/SkillCard';
 
 export const Home = () => {
   const [newSkill, setNewSkill] = useState('');
   const [mySkills, setMySkills] = useState([]);
 
   const handleNewSkill = () => {
-    setMySkills(prevState => [...prevState, newSkill]);
+    setMySkills(prevState => [...prevState, newSkill])
     Keyboard.dismiss()
   }
 
@@ -20,23 +22,19 @@ export const Home = () => {
           placeholderTextColor='#555'
           onChangeText={setNewSkill}
         />
-        <TouchableOpacity 
-          style={styles.button}
-          activeOpacity={0.6}
-          onPress={handleNewSkill}
-        >
-          <Text style={styles.buttonText}>Add</Text>
-        </TouchableOpacity>
+        <Button 
+          customText='Add'
+          handleAction={handleNewSkill}
+        />
         <Text style={[styles.title, { marginVertical: 50 }]}>
           My Skills
         </Text>
         {
           mySkills.map((skill, index) => (
-            <TouchableOpacity style={styles.buttonSkill} key={index}> 
-              <Text style={styles.textSkill}>
-                {skill}
-              </Text>
-            </TouchableOpacity>
+            <SkillCard 
+              skill={skill} 
+              key={index}
+            />
           ))
         }
       </View>
@@ -66,29 +64,4 @@ const styles = StyleSheet.create({
     marginTop: 30,
     borderRadius: 7
   },
-  button: {
-    backgroundColor: '#a370f7',
-    padding: 15,
-    borderRadius: 7,
-    alignItems: 'center',
-    marginTop: 20
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 17,
-    fontWeight: 'bold'
-  },
-  buttonSkill: {
-    backgroundColor: '#1f1e25',
-    padding: 15,
-    borderRadius: 50,
-    alignItems: 'center',
-    marginVertical: 10
-  },
-  textSkill: {
-    color: '#fff',
-    fontSize: 20,
-    fontWeight: 'bold',
-    
-  }
 })
