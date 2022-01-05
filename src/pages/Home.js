@@ -32,7 +32,7 @@ export const Home = () => {
         <FlatList
           data={mySkills}
           keyExtractor={item => item}
-          renderItem={({ item }) => (<SkillCard skill={skill} />)}
+          renderItem={({ item }) => (<SkillCard skill={item} />)}
         />
   
             
