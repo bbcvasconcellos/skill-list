@@ -1,21 +1,55 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, TextInput, Platform, Keyboard, TouchableWithoutFeedback, FlatList } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { 
+    View, 
+    Text, 
+    StyleSheet, 
+    TextInput, 
+    Platform, 
+    Keyboard, 
+    TouchableWithoutFeedback, 
+    FlatList
+  } from 'react-native'
 import { Button } from '../components/Button';
 import { SkillCard } from '../components/SkillCard';
 
+
+interface SkillData {
+  id: string;
+  name: string;
+}
+
 export const Home = () => {
   const [newSkill, setNewSkill] = useState('');
-  const [mySkills, setMySkills] = useState([]);
+  const [mySkills, setMySkills] = useState<SkillData[]>([]);
+  const [greeting, setGreeting] = useState('');
 
   const handleNewSkill = () => {
-    setMySkills(prevState => [...prevState, newSkill])
+    const data = {
+      id: String(new Date().getTime()),
+      name: newSkill
+    }
+    setMySkills(prevState => [...prevState, data])
     Keyboard.dismiss()
   }
+
+  useEffect(() => {
+    const currentTime = new Date().getHours();
+
+    if(currentTime < 12) {
+      setGreeting('Good morning')
+    }
+    else if(currentTime < 18) {
+      setGreeting('Good afternoon')
+    }
+    else {
+      setGreeting('Good evening')
+    }
+  }, [])
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container} >
-        <Text style={styles.title}>Welcome</Text>
+        <Text style={styles.title}>{greeting} Bruno!</Text>
         <TextInput 
           style={styles.input}
           placeholder='New Skill'
@@ -29,10 +63,11 @@ export const Home = () => {
         <Text style={[styles.title, { marginVertical: 50 }]}>
           My Skills
         </Text>
+        
         <FlatList
           data={mySkills}
-          keyExtractor={item => item}
-          renderItem={({ item }) => (<SkillCard skill={item} />)}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (<SkillCard skill={item.name} />)}
         />
   
             
