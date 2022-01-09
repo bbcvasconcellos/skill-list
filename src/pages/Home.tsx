@@ -32,6 +32,12 @@ export const Home = () => {
     Keyboard.dismiss()
   }
 
+  const handleRemoveSkill = (id: string) => {
+    console.log(id);
+    
+    setMySkills(prevState => prevState.filter(skill => skill.id !== id))
+  }
+
   useEffect(() => {
     const currentTime = new Date().getHours();
 
@@ -58,7 +64,7 @@ export const Home = () => {
         />
         <Button 
           customText='Add'
-          handleAction={handleNewSkill}
+          onPress={handleNewSkill}
         />
         <Text style={[styles.title, { marginVertical: 50 }]}>
           My Skills
@@ -67,7 +73,12 @@ export const Home = () => {
         <FlatList
           data={mySkills}
           keyExtractor={item => item.id}
-          renderItem={({ item }) => (<SkillCard skill={item.name} />)}
+          renderItem={({ item }) => (
+            <SkillCard 
+              skill={item.name} 
+              onPress={() => handleRemoveSkill(item.id)}
+            />
+          )}
         />
   
             
