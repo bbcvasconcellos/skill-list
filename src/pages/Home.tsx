@@ -33,8 +33,6 @@ export const Home = () => {
   }
 
   const handleRemoveSkill = (id: string) => {
-    console.log(id);
-    
     setMySkills(prevState => prevState.filter(skill => skill.id !== id))
   }
 
